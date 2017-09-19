@@ -1,0 +1,101 @@
+*** HTML ***
+<div class="wrap">
+
+	<input type="text" class="search__input" placeholder="Type your thing">
+
+	<div class="items"></div>
+	<div class="error"></div>
+	
+</div>
+
+
+*** JavaScript ***
+var items = [
+	'Html',
+	'Html5',
+	'Css',
+	'Css3',
+	'Less',
+	'JavaScript',
+	'jQuery',
+	'Gulp',
+	'Git'
+];
+
+var parent = document.querySelector('.items'),
+		btnSearch = document.querySelector('.search__input'),
+		error = document.querySelector('.error');
+
+
+btnSearch.addEventListener('input', function(e) {
+	let val = e.target.value.toLowerCase();
+	
+	let newArr = items.filter(function(e) {
+		return e.toLowerCase().match(val);
+	});
+	
+	renderItems(newArr, parent);
+	
+	
+	if(parent.childNodes.length !== 0 && val.length >= 1)
+		error.innerText = 'Совпадений: ' + parent.childNodes.length;
+	else if(parent.childNodes.length == 0)
+		error.innerText = 'Результат не найден';
+	else
+		error.innerText = '';
+	
+	
+}, false);
+
+
+var renderItems = (arr, parent) => {
+	parent.innerHTML = '';
+	for(let i = 0; i < arr.length; i++) {
+		var el = document.createElement('p');
+		el.innerHTML = arr[i];
+		parent.appendChild(el);
+	}
+}
+
+renderItems(items, parent);
+
+
+
+*** Sass ***
+.wrap
+	background: #c0392b
+	background-image: linear-gradient(-45deg, #ab3326, #e74c3c)
+	background-size: cover
+	font-family: 'Lucida Sans Unicode', sans-serif
+	color: white
+	height: 100vh
+	padding-top: 40px
+	box-sizing: border-box 
+	text-align: center
+	position: relative
+
+.search__input::placeholder
+	color: white
+	text-align: center
+.search__input
+	width: 200px
+	height: 40px
+	display: block
+	background: transparent
+	color: white
+	font-size: 17px
+	letter-spacing: 1px
+	border: none
+	border-bottom: 2px solid white
+	border-image: linear-gradient(to right,rgba(86, 11, 23, 1) 0%,#0D5C83 50%)
+	border-image-slice: 1
+	padding: 0 20px
+	box-sizing: border-box
+	outline: none
+	margin: 0 auto 30px auto
+
+.error
+	display: block
+	position: absolute
+	left: 25%
+	top: 50px
